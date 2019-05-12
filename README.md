@@ -14,4 +14,10 @@
 </ul>
 
 
-<h2>Tasks</h2>
+<h2>Tasks: </h2>
+
+
+<h2>Considerations: </h2>
+<ul>
+	<li>Cors proxy url is set to local host, to run on networki must change comfiguration of src/component/KeggApi/apiDownloader and corsProxy.js</li>
+</ul>
