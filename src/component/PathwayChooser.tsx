@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Pathway from './KeggApi/Pathway';
-import {getJsonPathway,getPathways} from './KeggApi/ApiController';
+import {getPathways} from './KeggApi/ApiController';
 import PropTypes from 'prop-types';
 
 const retryTimeoutms = 1000;

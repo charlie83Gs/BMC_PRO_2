@@ -1,5 +1,6 @@
 
 import Pathway from './Pathway';
+import FullPathway from './FullPathway';
 import * as Converter from 'xml-js';
 
 
@@ -38,20 +39,24 @@ function processHsaPathWays(data : string,callback){
 
 
 //return pathway relations as json in callback function
-export async function getJsonPathway(callback){
-	getXmlPathway(callback);
+export async function getJsonPathway(identifier:string,callback){
+	getXmlPathway(identifier,callback);
 }
 
-function getXmlPathway(callback){
-	fetch(API_HSA)
+function getXmlPathway(identifier:string,callback){
+	console.log("getting xml " + identifier);
+	var route = getApiPathwayQuery(identifier);
+	console.log(route);
+	fetch(route)
       .then(response => response.text())
-      .then(data => processHsaPathWays(data,callback));
+      .then(data => convertXmlToJson(data,callback));
 }
 
 function convertXmlToJson(data,callback){
 	var result = Converter.xml2json(data, {compact: true, spaces: 4});
-
-	if(callback) callback(result);
+	var jsonResult = JSON.parse(result);
+	var fullPaht : FullPathway = FullPathway.buildFromJson(jsonResult);
+	if(callback) callback(fullPaht);
 }
 
 
