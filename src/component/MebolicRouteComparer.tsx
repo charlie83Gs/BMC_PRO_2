@@ -5,6 +5,7 @@ import FullPathway from './KeggApi/FullPathway';
 import {getJsonPathway} from './KeggApi/ApiController';
 import GraphFactory from './Graph/GraphFactory';
 import Graph from './Graph/Graph';
+import {linealGlobalCompare,linealLocalCompare,linealSemiGlobalCompare} from './Graph/Compare';
 
 const algorithm = ["variant1.1","variant1.2","variant1.3","variant1.4","variant1.5"];
 const priority = ["depth","breath"];
@@ -67,6 +68,15 @@ export default class MetabolicRouteComparer extends React.Component {
 
   onCompare(){
     console.log("compare");
+    var graph1 = this.state.pathwayGraph1;
+    var graph2 = this.state.pathwayGraph2;
+    console.log(graph1);
+    console.log(graph2);
+    let linear1 = graph1.getCustomLinearB(graph1.initial,graph1.product);
+    let linear2 = graph2.getCustomLinearB(graph2.initial,graph2.product);
+    console.log(linealGlobalCompare(linear1,linear2,1,-2,-1));
+    
+
   }
 
   render () {

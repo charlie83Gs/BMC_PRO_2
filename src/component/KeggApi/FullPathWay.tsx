@@ -56,6 +56,21 @@ export default class FullPathway{
     		}
 
     	)
+    	//console.log(jsonPathway["pathway"]["reaction"]);
+    	jsonPathway["pathway"]["reaction"].forEach(
+    		(reaction) => {
+    			let substrate = reaction["product"]["_attributes"];
+    			let product = reaction["substrate"]["_attributes"];
+    			if(substrate && product)
+    			result.addRelation(substrate["id"],product["id"],false);
+    			if(substrate && product && reaction["_attributes"]["type"] == "reversible")
+    			result.addRelation(product["id"],substrate["id"],false);
+    			//if(substrate && product) console.log("reaction");
+
+    			//missing complex relations with substrate and product as arrays
+    		}
+
+    	)
 
 
     	return result;

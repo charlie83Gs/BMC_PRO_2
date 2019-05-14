@@ -26,6 +26,9 @@ export default class Graph{
 		this.getCustomLinearC = this.getCustomLinearC.bind(this);
 		this.getCustomLinearD = this.getCustomLinearD.bind(this);
 		this.getCustomLinearE = this.getCustomLinearE.bind(this);
+
+		//add node
+		this.addNode(root);
 	}
 
 
@@ -159,6 +162,7 @@ export default class Graph{
 		let itFunction = depth ? this.depthVisit : this.breathVisith;
 		itFunction(
 			(visitedNode)=>{
+				//console.log(visitedNode)
 				rep.push(visitedNode);
 			}
 		,startingNode);
@@ -268,4 +272,8 @@ function getLastValue(set){
   var value;
   for(value of set);
   return value;
+
+
 }
+
+
