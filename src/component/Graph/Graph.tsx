@@ -243,6 +243,8 @@ export default class Graph{
 
 	}
 
+	
+
 	resetVisits(){
 		let myself = this;
 		Object.keys(myself.nodes).forEach(

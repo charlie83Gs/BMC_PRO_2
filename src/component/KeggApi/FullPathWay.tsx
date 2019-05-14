@@ -37,6 +37,7 @@ export default class FullPathway{
 		var result = new FullPathway(identifier, name);
 
     	//iterate all entrys, and load them in the full pathway
+    	if(jsonPathway["pathway"]["entry"])
     	jsonPathway["pathway"]["entry"].forEach(
     	    		(entry) =>{
     	    			let geneId = entry["_attributes"]["id"];
@@ -49,6 +50,7 @@ export default class FullPathway{
     	);
 		
 		// iterate all realtions
+		if(jsonPathway["pathway"]["relation"])
     	jsonPathway["pathway"]["relation"].forEach(
     		(relation) => {
     			let atributes = relation["_attributes"];
@@ -57,6 +59,7 @@ export default class FullPathway{
 
     	)
     	//console.log(jsonPathway["pathway"]["reaction"]);
+    	if(jsonPathway["pathway"]["reaction"])
     	jsonPathway["pathway"]["reaction"].forEach(
     		(reaction) => {
     			let substrate = reaction["product"]["_attributes"];
