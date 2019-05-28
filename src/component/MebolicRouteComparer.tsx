@@ -29,6 +29,10 @@ export default class MetabolicRouteComparer extends React.Component {
     compareAlgorithm : "GlobalCompare",
     traverseMode : 0,
     simplification : 0,
+    simplified1 : undefined,
+    simplified2 : undefined,
+    result : 0,
+
   };
 
   constructor(props) {
@@ -90,7 +94,7 @@ export default class MetabolicRouteComparer extends React.Component {
 
 
   onCompare(){
-    console.log("compare");
+    //console.log("compare");
     var compAlg = compareAlgorithms[this.state.compareAlgorithm];
     var depth = this.state.traverseMode == 0;
     var graph1 = this.state.pathwayGraph1;
@@ -132,11 +136,17 @@ export default class MetabolicRouteComparer extends React.Component {
         // code...
         break;
     }
-
-
-    console.log(compAlg(linear1,linear2,1,-2,-1));
+    console.log({linear1,linear2});
+    let result = compAlg(linear1,linear2,1,-2,-1);
+    console.log(result);
     
-
+    this.setState(
+    {
+      "result" : result,
+      simplified1 : linear1,
+      simplified2 : linear2,
+    }
+    );
   }
 
   render () {
@@ -181,7 +191,20 @@ export default class MetabolicRouteComparer extends React.Component {
 
          }
          </select>
+           
          </div>
+         <div style ={styles.chooserBody}>
+             <p>First Sequence</p>
+             {this.state.simplified1 && <p>{nodeArrayToString(this.state.simplified1)}</p>}
+           </div>
+           <div style ={styles.chooserBody}>
+             <p>Second Sequence</p>
+             {this.state.simplified2 && <p>{nodeArrayToString(this.state.simplified2)}</p>}
+           </div>
+           <div style ={styles.chooserBody}>
+             <p>Result</p>
+             {this.state.result && <p>{this.state.result}</p>}
+           </div>
       </div>
 
 
@@ -231,4 +254,13 @@ const styles = {
     borderRadius:"6px",
     display:"inline-block",
   }
+}
+
+function nodeArrayToString(nodeArray){
+  let res = "";
+  nodeArray.forEach(
+    (node) => res += node.data.name + "|"
+  );
+
+  return res;
 }

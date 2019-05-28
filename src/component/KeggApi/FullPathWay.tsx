@@ -64,17 +64,30 @@ export default class FullPathway{
     		(reaction) => {
     			let substrate = reaction["product"]["_attributes"];
     			let product = reaction["substrate"]["_attributes"];
-    			if(substrate && product)
-    			result.addRelation(substrate["id"],product["id"],false);
-    			if(substrate && product && reaction["_attributes"]["type"] == "reversible")
-    			result.addRelation(product["id"],substrate["id"],false);
-    			//if(substrate && product) console.log("reaction");
+                if(substrate && product){
+                    //make parts as array as array
+                    if(!Array.isArray(substrate)) substrate = [substrate];
+                    if(!Array.isArray(product)) product = [product];
 
+                    for (var i = 0; i < substrate.length; ++i) {
+                        let currentSubstrate = substrate[i];
+                        for (var j = 0; j < product.length; ++j) {
+                            let currentProduct = product[i];
+                            if(currentProduct && currentSubstrate){
+                                result.addRelation(currentSubstrate["id"],currentProduct["id"],false);
+                                if(reaction["_attributes"]["type"] == "reversible")
+                                result.addRelation(currentProduct["id"],currentSubstrate["id"],false);
+                            }
+                        }
+                    }
+
+                }
+    			//if(substrate && product) console.log("reaction");
     			//missing complex relations with substrate and product as arrays
     		}
 
     	)
-
+        console.log({result});
 
     	return result;
    	}

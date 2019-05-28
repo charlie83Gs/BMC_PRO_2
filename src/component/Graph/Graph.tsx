@@ -98,7 +98,7 @@ export default class Graph{
 		while(pending.length > 0){
 			actual = pending.pop();
 			callback(actual);
-			console.log(actual);
+			//console.log(actual);
 			actual.neigthbors.forEach(
 				(neigthborRel) => {
 					var neigthbor = neigthborRel.target; 
