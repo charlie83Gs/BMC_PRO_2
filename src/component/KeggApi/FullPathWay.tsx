@@ -80,6 +80,7 @@ export default class FullPathway{
                             }
                         }
                     }
+                   
 
                 }
     			//if(substrate && product) console.log("reaction");

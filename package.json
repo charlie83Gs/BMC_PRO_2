@@ -16,6 +16,7 @@
     "cors-anywhere": "^0.4.1",
     "node-env-run": "^3.0.2",
     "react": "^16.8.6",
+    "react-collapsible": "^2.6.0",
     "react-dom": "^16.8.6",
     "xml-js": "^1.6.11"
   },

@@ -67,6 +67,6 @@ function getApiPathwayQuery(name : string) : string{
 	return (API_QUERY + name + API_XML_FORMAT_URL);
 }
 
-function getApiImagePathwayQuery(name : string) : string{
-	return (API_QUERY + name + API_IMAGE_FORMAT_URL);
+export function getApiImagePathwayQuery(name : string) : string{
+	return ("http://rest.kegg.jp/get/" + name + API_IMAGE_FORMAT_URL);
 }

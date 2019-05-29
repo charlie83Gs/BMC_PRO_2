@@ -15,6 +15,7 @@ export default class Graph{
 
 		this.addNode = this.addNode.bind(this);
 		this.setProduct = this.setProduct.bind(this);
+		this.setInitial = this.setInitial.bind(this);
 		this.addDirectionalRelation = this.addDirectionalRelation.bind(this);
 		this.addBidirectionaRelation = this.addBidirectionaRelation.bind(this);
 		this.getRelatedNodes = this.getRelatedNodes.bind(this);
@@ -26,6 +27,7 @@ export default class Graph{
 		this.getCustomLinearC = this.getCustomLinearC.bind(this);
 		this.getCustomLinearD = this.getCustomLinearD.bind(this);
 		this.getCustomLinearE = this.getCustomLinearE.bind(this);
+		this.find = this.find.bind(this);
 
 		//add node
 		this.addNode(root);
@@ -39,7 +41,22 @@ export default class Graph{
 	}
 
 	setProduct(id){
+		if(this.nodes[id])
 		this.product = this.nodes[id];
+	}
+
+	setInitial(id){
+		if(this.nodes[id])
+		this.initial = this.nodes[id];
+	}
+
+	find(node){
+		let keys = Object.keys(this.nodes);
+		for (var i = 0; i < keys.length; i++) {
+			if (this.nodes[keys[i]].getName() == node.getName())
+			return keys[i];
+		}
+		return undefined;
 	}
 
 	addDirectionalRelation(nodeId1,nodeId2,weight){
@@ -141,16 +158,16 @@ export default class Graph{
 		let randomStart = nodeKeyArray[ Math.floor(Math.random() * nodeKeyArray.length)]; 
 		let randomEnd = nodeKeyArray[ Math.floor(Math.random() * nodeKeyArray.length)]; 
 		let startingNode =  this.nodes[randomStart];
-		let endNode =  this.nodes[randomEnd];
+		//let endNode =  this.product;
 
 		let itFunction = depth ? this.depthVisit : this.breathVisith;
 		itFunction(
 			(visitedNode)=>{
-				if(!ended)
+				//if(!ended)
 				rep.push(visitedNode);
-				if(visitedNode = endNode) ended = true;
+				//if(visitedNode = endNode) ended = true;
 			}
-		,startingNode);
+		,this.initial);
 
 		return rep;
 	}
@@ -192,21 +209,24 @@ export default class Graph{
 	getCustomLinearD(startingNode,endNode){
 		let lists = [];
 		let result = [];
-		result.push(new Set(startingNode));		
+		let nres = new Set();
+		nres.add(startingNode);
+		result.push(nres);		
 		let index = 0;
 
 		while(index < result.length){
 			//complete the next sequence
-			var currentSet = result.splice(index,1);
+			var currentSet = result.splice(index,1)[0];
+			//console.log(currentSet)
 			var actualNode = getLastValue(currentSet); 
-
+			//console.log("las value of set: ",actualNode)
 			if(actualNode == endNode){
 				index++;
 				continue;//work on next set
 			}
 
 			//get element at position and remove from array
-			
+			//console.log(actualNode)
 			actualNode.neigthbors.forEach(
 				(neigthborRel) => {
 					//if node has not being visited
@@ -214,15 +234,16 @@ export default class Graph{
 					if(!currentSet.has(neigthbor)){
 						var newSet = new Set(currentSet);
 						newSet.add(neigthbor);
-						result.push()
+						result.push(newSet)
 					}
 					
 				}
 			)
 
 		}
+		//console.log({result});
 
-		return result;
+		return setListToArrayList(result);
 
 
 	}
@@ -230,15 +251,19 @@ export default class Graph{
 	//modification 1.5
 	getCustomLinearE(){
 		var result = [];
-		for (var i = 0; i < this.nodes.length; i++) {
-			var nodeA = this.nodes[i];
-			for (var j = 0; j < this.nodes.length; ji++) {
-				var nodeB = this.nodes[j];
+		var keys = Object.keys(this.nodes);
+		console.log(keys.length);
+		for (var i = 0; i < keys.length; i++) {
+			console.log("actual iteration: ", i );
+			var nodeA = this.nodes[keys[i]];
+			for (var j = 0; j < keys.length; j++) {
+				var nodeB =  this.nodes[keys[j]];
 				var partialResult = this.getCustomLinearD(nodeA,nodeB);
 				result = result.concat(partialResult);
 			}
 
 		}
+		//console.log({result});
 		return result;
 
 	}
@@ -259,6 +284,17 @@ export default class Graph{
 }
 
 
+function setListToArrayList(setList){
+	let newArrayList = [];
+	setList.forEach(
+		(set) => {
+			newArrayList.push(Array.from(set));
+		}
+	)
+
+	return newArrayList;
+}
+
 
 //javascript set union function
 function union(setA, setB) {
@@ -271,11 +307,13 @@ function union(setA, setB) {
 
 //get last set value
 function getLastValue(set){
+  	//console.log("doing",set);
   var value;
-  for(value of set);
+  set.forEach((val)=> {value=val});
+
   return value;
-
-
 }
+
+
 
 

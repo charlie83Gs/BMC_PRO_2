@@ -133,7 +133,8 @@ export function linealLocalCompare(NodeArray1 : Node[] ,NodeArray2 : Node[] ,coi
 
 	        //console.log(leftValue,diagonalValue,topValue)
 	        //the optimal value of this slot
-	        var newValue = Math.max(leftValue,Math.max(diagonalValue,topValue));
+	        //negative numbers are not allowed
+	        var newValue = Math.max(0,Math.max(leftValue,Math.max(diagonalValue,topValue)));
 
 	        maxValue = Math.max(newValue,maxValue);
 	        

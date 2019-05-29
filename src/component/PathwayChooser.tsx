@@ -28,6 +28,8 @@ export default class PathwayChooser extends React.Component {
   onPathwaysLoaded(result){
     //console.log(result);
     if(result.length > 0){
+      //result.sort((a : Pathway,b : Pathway)=>{ (a.name > b.name) ? 1 : ((a.name < b.name)? -1 : 0) })
+      //console.log("sorted");
       this.setState({availabePathways : result, currentPathay : result[0]});
       if(this.props.onChange)this.props.onChange(result[0]);
     }
