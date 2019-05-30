@@ -4,7 +4,7 @@ import Pathway from './KeggApi/Pathway';
 import FullPathway from './KeggApi/FullPathway';
 import {getJsonPathway,getApiImagePathwayQuery} from './KeggApi/ApiController';
 import GraphFactory from './Graph/GraphFactory';
-import Graph from './Graph/Graph';
+import Graph, {pairAnalisis} from './Graph/Graph';
 import GraphListView from './Graph/GraphListView';
 import NodeChoser from './Graph/NodeChoser';
 import NodeListView from './Graph/NodeListView';
@@ -116,7 +116,7 @@ export default class MetabolicRouteComparer extends React.Component {
     }
   }
 
-  onCompare(){
+  onCompare = async function(){
     //console.log("compare");
     var compAlg = compareAlgorithms[this.state.compareAlgorithm];
     var depth = this.state.traverseMode == 0;
@@ -127,6 +127,7 @@ export default class MetabolicRouteComparer extends React.Component {
     let linear1;
     let linear2;
     let isLineal = true;
+    console.log(pairAnalisis(graph1,graph2,graph1.initial));
     
     switch (simplificationAlgorithm[this.state.simplification]) {
       case "variant1.1":
@@ -189,6 +190,8 @@ export default class MetabolicRouteComparer extends React.Component {
   this.massCompare(linear1,linear2,compAlg);
 
   }
+
+  //var worker = new Worker('worker.js');
   }
 
   massCompare = async function(linear1,linear2,compAlg){
@@ -200,7 +203,7 @@ export default class MetabolicRouteComparer extends React.Component {
       (simp1,index) => {
         let percent = Math.floor(parseInt(index)/linear1.length*100) + "%";
         //console.log(index,percent);
-        if(index% 100 == 0) myself.setState({result:percent});
+        if(index% 10000 == 0) myself.setState({result:percent});
 
         linear2.forEach(
         (simp2) => {

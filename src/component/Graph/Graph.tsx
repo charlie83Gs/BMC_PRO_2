@@ -28,6 +28,7 @@ export default class Graph{
 		this.getCustomLinearD = this.getCustomLinearD.bind(this);
 		this.getCustomLinearE = this.getCustomLinearE.bind(this);
 		this.find = this.find.bind(this);
+		//this.pairAnalisis = this.pairAnalisis.bind(this);
 
 		//add node
 		this.addNode(root);
@@ -50,10 +51,10 @@ export default class Graph{
 		this.initial = this.nodes[id];
 	}
 
-	find(node){
+	find(node : Node){
 		let keys = Object.keys(this.nodes);
 		for (var i = 0; i < keys.length; i++) {
-			if (this.nodes[keys[i]].getName() == node.getName())
+			if (this.nodes[keys[i]] && this.nodes[keys[i]].getName() == node.getName())
 			return keys[i];
 		}
 		return undefined;
@@ -269,7 +270,6 @@ export default class Graph{
 	}
 
 	
-
 	resetVisits(){
 		let myself = this;
 		Object.keys(myself.nodes).forEach(
@@ -304,6 +304,51 @@ function union(setA, setB) {
     }
     return _union;
 }
+
+
+
+
+
+export function pairAnalisis(graphA  : Graph,graphB : Graph, startingNode:Node){
+	let stNodeA : Node = graphA.nodes[graphA.find(startingNode)];
+	stNodeA = stNodeA ? stNodeA : graphA.initial;
+
+	let pending = [];
+	pending.push(stNodeA);
+	let resultPairs = [];
+
+	while(pending.length > 0){
+		let current : Node = pending.pop();
+		
+		//find on the other graph
+		let bkey = graphB.find(current);
+		if(bkey)
+		let equivalent = graphB.nodes[bkey];
+		else continue;
+		if(!equivalent) continue;
+
+		current.visited = true;
+		//console.log(current);
+		current.neigthbors.forEach(
+			(nb : Node) =>{
+				if(!nb.target.visited) pending.push(nb.target);
+
+				/*if(!equivalent.isNeightborOf(nb)){
+					//push a diferent pair;
+					resultPairs.push(current);
+					resultPairs.push(nb);
+
+				}*/
+			}
+		)
+	}
+
+	graphA.resetVisits();
+	return resultPairs;
+}
+
+
+
 
 //get last set value
 function getLastValue(set){

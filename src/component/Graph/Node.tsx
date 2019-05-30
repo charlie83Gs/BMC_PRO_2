@@ -23,5 +23,17 @@ export default class Node{
 		return this.data.name;
 	}
 
+	isNeightborOf(target : Node){
+		let res = false;
+		console.log({target});
+		this.neigthbors.forEach(
+			(nb) => {
+				if(nb && nb instanceof Node && nb.getName() == target.getName()) res = true;
+			}
+		)
+
+		return res;
+	}
+
 
 }
