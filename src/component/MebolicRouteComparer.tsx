@@ -127,7 +127,7 @@ export default class MetabolicRouteComparer extends React.Component {
     let linear1;
     let linear2;
     let isLineal = true;
-    console.log(pairAnalisis(graph1,graph2,graph1.initial));
+    //console.log(pairAnalisis(graph1,graph2,graph1.initial));
     
     switch (simplificationAlgorithm[this.state.simplification]) {
       case "variant1.1":
